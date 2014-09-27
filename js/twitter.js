@@ -125,7 +125,7 @@ var twitterFetcher = function() {
  * @param {boolean} Optional - Show links for reply, retweet, favourite. Set false to not show.
  */
 
-twitterFetcher.fetch('434514841240207360', 'twitter_feed', 12, true, true, true, '', true, handleTweets, false);
+twitterFetcher.fetch('434514841240207360', 'twitter_feed', 6, true, true, true, '', true, handleTweets, false);
 
 function handleTweets(tweets) {
 	var x = tweets.length;

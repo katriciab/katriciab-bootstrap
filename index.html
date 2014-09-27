@@ -15,6 +15,7 @@
 		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="./css/style.css" data-skrollr-stylesheet />
 		<link href='http://fonts.googleapis.com/css?family=EB+Garamond|Montserrat|Vollkorn:400italic' rel='stylesheet' type='text/css' />
+		<link href="./css/animate.css" rel="stylesheet">
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -30,12 +31,12 @@
 						<img id="logo" class="navbar-brand navbar-toggle" src="./img/katriciab_logo.png" data-toggle="collapse" data-target=".navbar-collapse" />
 					</div>
 					<div class="navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-							<li class="active">
-								<a href="./index.html">Home</a>
+						<ul class="nav navbar-nav sans-serif">
+							<li>
+								<a href="#about">About</a>
 							</li>
 							<li>
-								<a href="./aboutme.html">About Me</a>
+								<a href="#tweets">Tweets</a>
 							</li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -62,48 +63,123 @@
 							<h3>Foodie Developer Artist</h3>
 						</div>
 						<p>
-							I am a mobile developer with artist hands, foodie cravings, and the tendency to sing to myself while riding down the street in my forest green bicycle.
+							I am a mobile developer with artist hands, foodie cravings, and the tendency to sing to myself while riding down the street in my green bicycle.
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="container">
+		<div id="about" class="container content">
+			<div class="row">
+				<a name="about"></a>
+				<img id="balinese-temple-left" class="col-sm-3 hidden-xs" src="img/balinese_temple_bw_left.png" />
+				<div class="pink-lines col-sm-6">
+					<section>
+						<p>
+							<span>Hello, my name is Katricia.</span>
+							 I grew up in Indonesia, and am currently calling Toronto home. I love to eat, learn new things, and adore all things in the cat family - including myself and pomeranians (shhh).
+						</p>
+						<p>
+							I have an acute eye and ear for detail. I tend to randomly sing along to the playlist in my head, or give tribute to inspiration through the scratchings of lead on paper.
+						</p>
+						<p>
+							I get excited about a lot of things, but nothing lights me up like talking nerdy about technology, apps and the internet of things. Oh, and bicycles.
+						</p>
+					</section>
+				</div>
+				<img id="balinese-temple-right" class="col-sm-3 hidden-xs" src="img/balinese_temple_bw_right.png" />
+			</div>
+		</div>
+
+		<div id="work" class="container content">
+			<div class="row">
+				<div class="col-sm-5 col-xs-12 text-center">
+					<img id="profile-pic" src="./img/katriciab_profile.png" alt="Meow face." />
+				</div>
+				<div class="col-sm-7 col-xs-12">
+					<div class="container-fluid">
+						<div class="row text-center">
+							<h2><span>Work Experience</span></h2>
+							<p>
+								<b>2013-present:</b> Agile Developer @ Pivotal Labs
+								<br />
+								<b>2012-2013:</b> Agile Developer @ Xtreme Labs Inc
+								<br />
+								<b>2010-2011:</b> Software Developer Intern @ Research in Motion
+								<br />
+								<b>2009-2010:</b> Sales Associate @ Queen's Campus Computer Store
+								<br />
+							</p>
+						</div>
+						<div class="row text-center">
+							<h2><span>Education</span></h2>
+							<p>
+								<b>University:</b> Queen's University '12
+								<br />
+								<b>High School:</b> Jakarta International School '07
+								<br />
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="links" class="container content">
+			<div class="row">
+				<div class="col-md-12">
+					<a name="follow"></a>
+					<h2>Follow Me</h2>
+					<p>
+						<a href="http://facebook.com/katriciab" target="_blank"><i class="fa fa-facebook"></i></a>
+						<a href="http://instagram.com/katriciab" target="_blank"><i class="fa fa-instagram"></i></a>
+						<a href="http://twitter.com/katriciab" target="_blank"><i class="fa fa-twitter"></i></a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="tweets" class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<h2>Latest Tweets</h2>
+					<a name="thoughts"></a>
+					<h2>Tweets and Things</h2>
+					<!-- <h2>Latest Tweets</h2> -->
 					<div id="twitter_feed"></div>
 				</div>
 			</div>
 		</div>
 
+
 		<footer>
-			<hr>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<h2>Follow Me</h2>
-						<p>
-							<a href="http://facebook.com/katriciab" target="_blank"><i class="fa fa-facebook"></i></a>
-							<a href="http://instagram.com/katriciab" target="_blank"><i class="fa fa-instagram"></i></a>
-							<a href="http://twitter.com/katriciab" target="_blank"><i class="fa fa-twitter"></i></a>
-						</p>
-					</div>
+			<div id="random" class="container content">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<hr />
+					<p>
+						Thanks for stopping by. Since you've made it this far, here are some internet places and things that I'm obssessed with right now. Go wander.
+					</p>
+					<p>
+						<a href="https://ifttt.com/" target="_blank">IFTTT</a> - Life automation on crack.<br/>
+						<a href="http://littlebits.cc/" target="_blank">LITTLE BITS ELECTRONICS</a> - Snap, and you've got a smart freakin' anything. Fun.<br/>
+						<a href="http://androidniceties.tumblr.com/" target="_blank">ANDROID NICETIES</a> - Like, who said Android isn't beautiful?<br />
+						<a href="http://minimumgrid.ca/" target="_blank">MINIMUM GRID TORONTO</a> - All cities need safe and efficient biking routes. <br/>
+						<a href="https://soundcloud.com/erikhassle/erik-hassle-feat-elliphant" target="_blank">Erik Hassle feat. Elliphant - Talk About It (Sikow Remix)</a> - Amazing, amazing. Listen + melt.
+					</p>
 				</div>
 			</div>
+		</div>
 		</footer>
-
+		
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/twitter.js"></script>
-		<script>
-			window.jQuery || document.write('<script src="./js/jquery.js"><\/script>')
-		</script>
-		<script src="./js/skrollr.stylesheets.min.js"></script>
-		<script src="./js/skrollr.js"></script>
-		<script src="./js/main.js"></script>
-		<script src="js/analytics.js" type="text/javascript" ></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/twitter.js"></script>
+		<script src="js/waypoints.min.js"></script>
+		<script src="js/skrollr.stylesheets.min.js"></script>
+		<script src="js/skrollr.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/analytics.js" type="text/javascript"></script>
 	</body>
 </html>
