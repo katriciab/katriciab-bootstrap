@@ -92,6 +92,13 @@ h2.header-tag {
 	line-height: 1.3em;
 }
 
+.header-content {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1280px;
+}
+
 /* Links
  -------------------------------------------------- */
 #links {
