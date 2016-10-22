@@ -290,26 +290,12 @@ h2.header-tag {
 		font-size: 2.6em;
 	}
 
-	h2#my-name {
-		text-align: right;
-		position: absolute;
-		top: 100px;
-		left: 50px;
-		-skrollr-animation-name: catchColorChange;
-	}
-
-	h2#catch-phrase {
-		position: absolute;
-		top: 100px;
-		right: 50px;
-		-skrollr-animation-name: catchColorChange;
-	}
-
 	#introduction p {
 		font-size: 2.2em;
 	}
 	#introduction p span {
 		font-size: 2.6em;
+		-skrollr-animation-name: catchColorChange;
 	}
 
 	#profile-pic {
