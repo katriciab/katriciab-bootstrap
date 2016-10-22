@@ -393,7 +393,7 @@
 var config = {
 	"id" : '434514841240207360', 
 	"domId" : 'twitter_feed', 
-	"maxTweets" : 6, 
+	"maxTweets" : 4, 
 	"enableLinks" : true, 
 	"showUser" : true, 
 	"showTime" : true, 

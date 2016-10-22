@@ -60,17 +60,11 @@ h3 code {
 	text-transform: uppercase;
 }
 
-.navbar-nav li {
-	margin: 10px 5px 10px 5px;
-}
-
-nav li {
-	color: #737373;
-	background: rgba(238,238,238,0.7);
-}
-
-.navbar-toggle {
-	float: left;
+#logo {
+	margin-top: 54px;
+	margin-left: -27px;
+	width: 54px;
+	height: 54px;
 }
 
 /* Header
@@ -96,7 +90,7 @@ h2.header-tag {
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	max-width: 1280px;
+	max-width: 54px;
 }
 
 /* Links
@@ -151,6 +145,7 @@ h2.header-tag {
 #introduction p {
 	font-size: 20px;
 }
+
 #introduction p span {
 	font-size: 16px;
 }
@@ -205,8 +200,12 @@ h2.header-tag {
 }
 
 
-/* Twitter
+/* Blogging and Twitter
  -------------------------------------------------- */
+#blog p span {
+	border-bottom: 2px solid rgb(255,26,168);
+}
+
  #tweets h2 {
 	text-align: center;
  }
@@ -216,6 +215,11 @@ h2.header-tag {
 	margin-bottom: 25px;
 	list-style: none;
 	background-color: #F5F5F5;
+}
+
+#tweets p {
+	margin-left: 50px;
+	margin-right: 50px;
 }
 
 .user {
@@ -329,9 +333,6 @@ h2.header-tag {
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-	nav li:not(.active) {
-		background: transparent;
-	}
 
 	#profile-pic {
 		float: right;
