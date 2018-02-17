@@ -1,5 +1,5 @@
 /*********************************************************************
-*  #### Twitter Post Fetcher v15.0.1 ####
+*  #### Twitter Post Fetcher v17.0.3 ####
 *  Coded by Jason Mayes 2015. A present to all the developers out there.
 *  www.jasonmayes.com
 *  Please keep this disclaimer with my code if you use it. Thanks. :-)
@@ -35,6 +35,7 @@
   var customCallbackFunction = null;
   var showInteractionLinks = true;
   var showImages = false;
+  var useEmoji = false;
   var targetBlank = true;
   var lang = 'en';
   var permalinks = true;
@@ -85,12 +86,12 @@
   }
 
   function extractImageUrl(image_data) {
-    if (image_data !== undefined && image_data.innerHTML.indexOf('data-srcset') >= 0) {
-      var data_src = image_data.innerHTML
-          .match(/data-srcset="([A-z0-9%_\.-]+)/i)[0];
-      return decodeURIComponent(data_src).split('"')[1];
+    if (image_data !== undefined && image_data.innerHTML.indexOf('data-image') >= 0) {
+      var data_src = image_data.innerHTML.match(/data-image=\"([A-z0-9]+:\/\/[A-z0-9]+\.[A-z0-9]+\.[A-z0-9]+\/[A-z0-9]+\/[A-z0-9\-]+)/i)[1];
+      return decodeURIComponent(data_src) + '.jpg';
     }
   }
+ 
 
   var twitterFetcher = {
     fetch: function(config) {
@@ -121,6 +122,9 @@
       if (config.showImages === undefined) {
         config.showImages = false;
       }
+      if (config.useEmoji === undefined) {
+        config.useEmoji = false;
+      }
       if (config.linksInNewWindow === undefined) {
         config.linksInNewWindow = true;
       }
@@ -146,6 +150,7 @@
         customCallbackFunction = config.customCallback;
         showInteractionLinks = config.showInteraction;
         showImages = config.showImages;
+	useEmoji = config.useEmoji;
         targetBlank = config.linksInNewWindow;
         permalinks = config.showPermalinks;
         dataOnly = config.dataOnly;
@@ -156,14 +161,58 @@
         }
         script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://cdn.syndication.twimg.com/widgets/timelines/' +
-            config.id + '?&lang=' + (config.lang || lang) +
-            '&callback=twitterFetcher.callback&' +
-            'suppress_response_codes=true&rnd=' + Math.random();
+        if (config.list !== undefined) {
+          script.src = 'https://syndication.twitter.com/timeline/list?' +
+              'callback=__twttrf.callback&dnt=false&list_slug=' +
+              config.list.listSlug + '&screen_name=' + config.list.screenName +
+              '&suppress_response_codes=true&lang=' + (config.lang || lang) +
+              '&rnd=' + Math.random();
+        } else if (config.profile !== undefined) {
+          script.src = 'https://syndication.twitter.com/timeline/profile?' +
+              'callback=__twttrf.callback&dnt=false' +
+              '&screen_name=' + config.profile.screenName +
+              '&suppress_response_codes=true&lang=' + (config.lang || lang) +
+              '&rnd=' + Math.random();
+        } else if (config.likes !== undefined) {
+          script.src = 'https://syndication.twitter.com/timeline/likes?' +
+              'callback=__twttrf.callback&dnt=false' +
+              '&screen_name=' + config.likes.screenName +
+              '&suppress_response_codes=true&lang=' + (config.lang || lang) +
+              '&rnd=' + Math.random();
+        } else {
+          script.src = 'https://cdn.syndication.twimg.com/widgets/timelines/' +
+              config.id + '?&lang=' + (config.lang || lang) +
+              '&callback=__twttrf.callback&' +
+              'suppress_response_codes=true&rnd=' + Math.random();
+        }
         head.appendChild(script);
       }
     },
     callback: function(data) {
+      if (data === undefined || data.body === undefined) {
+        inProgress = false;
+
+        if (queue.length > 0) {
+          twitterFetcher.fetch(queue[0]);
+          queue.splice(0,1);
+        }
+        return;
+      }
+
+      // Remove emoji and summary card images.
+      if(!useEmoji){
+        data.body = data.body.replace(/(<img[^c]*class="Emoji[^>]*>)|(<img[^c]*class="u-block[^>]*>)/g, '');
+      }
+
+      // Remove display images.
+      if (!showImages) {
+        data.body = data.body.replace(/(<img[^c]*class="NaturalImage-image[^>]*>|(<img[^c]*class="CroppedImage-image[^>]*>))/g, '');
+      }
+      // Remove avatar images.
+      if (!printUser) {
+        data.body = data.body.replace(/(<img[^c]*class="Avatar"[^>]*>)/g, '');
+      }
+
       var div = document.createElement('div');
       div.innerHTML = data.body;
       if (typeof(div.getElementsByClassName) === 'undefined') {
@@ -174,7 +223,7 @@
         var avatarImg = element.getElementsByTagName('img')[0];
         avatarImg.src = avatarImg.getAttribute('data-src-2x');
         return element;
-      };
+      }
 
       var tweets = [];
       var authors = [];
@@ -196,8 +245,9 @@
           if (!rts[x] || rts[x] && showRts) {
             tweets.push(tmp[x].getElementsByClassName('timeline-Tweet-text')[0]);
             tids.push(tmp[x].getAttribute('data-tweet-id'));
-            authors.push(swapDataSrc(tmp[x]
-                .getElementsByClassName('timeline-Tweet-author')[0]));
+            if (printUser) {
+              authors.push(swapDataSrc(tmp[x].getElementsByClassName('timeline-Tweet-author')[0]));
+            }
             times.push(tmp[x].getElementsByClassName('dt-updated')[0]);
             permalinksURL.push(tmp[x].getElementsByClassName('timeline-Tweet-timestamp')[0]);
             if (tmp[x].getElementsByClassName('timeline-Tweet-media')[0] !==
@@ -220,8 +270,9 @@
           if (!rts[x] || rts[x] && showRts) {
             tweets.push(getElementsByClassName(tmp[x], 'timeline-Tweet-text')[0]);
             tids.push(tmp[x].getAttribute('data-tweet-id'));
-            authors.push(swapDataSrc(getElementsByClassName(tmp[x],
-                'timeline-Tweet-author')[0]));
+            if (printUser) {
+              authors.push(swapDataSrc(getElementsByClassName(tmp[x],'timeline-Tweet-author')[0]));
+            }
             times.push(getElementsByClassName(tmp[x], 'dt-updated')[0]);
             permalinksURL.push(getElementsByClassName(tmp[x], 'timeline-Tweet-timestamp')[0]);
             if (getElementsByClassName(tmp[x], 'timeline-Tweet-media')[0] !== undefined) {
@@ -250,13 +301,21 @@
         while (n < x) {
           arrayTweets.push({
             tweet: tweets[n].innerHTML,
-            author: authors[n].innerHTML,
+            author: authors[n] ? authors[n].innerHTML : 'Unknown Author',
+            author_data: {
+              profile_url: authors[n] ? authors[n].querySelector('[data-scribe="element:user_link"]').href : null,
+              profile_image: authors[n] ? authors[n].querySelector('[data-scribe="element:avatar"]').getAttribute('data-src-1x') : null,
+              profile_image_2x: authors[n] ? authors[n].querySelector('[data-scribe="element:avatar"]').getAttribute('data-src-2x') : null,
+              screen_name: authors[n] ? authors[n].querySelector('[data-scribe="element:screen_name"]').title : null,
+              name: authors[n] ? authors[n].querySelector('[data-scribe="element:name"]').title : null
+            },
             time: times[n].textContent,
+            timestamp: times[n].getAttribute('datetime').replace('+0000', 'Z').replace(/([\+\-])(\d\d)(\d\d)/, '$1$2:$3'),
             image: extractImageUrl(images[n]),
             rt: rts[n],
             tid: tids[n],
             permalinkURL: (permalinksURL[n] === undefined) ?
-                '' : permalinksURL[n].href 
+                '' : permalinksURL[n].href
           });
           n++;
         }
@@ -338,14 +397,17 @@
                 tids[n] + '" class="twitter_fav_icon"' +
                 (targetBlank ? ' target="_blank">' : '>') + 'Favorite</a></p>';
           }
-
-          if (showImages && images[n] !== undefined) {
+          if (showImages && images[n] !== undefined && extractImageUrl(images[n]) !== undefined) {
             op += '<div class="media">' +
                 '<img src="' + extractImageUrl(images[n]) +
                 '" alt="Image from tweet" />' + '</div>';
           }
+          if (showImages) {
+            arrayTweets.push(op);
+          } else if (!showImages && tweets[n].textContent.length) {
+            arrayTweets.push(op);
+          }
 
-          arrayTweets.push(op);
           n++;
         }
       }
@@ -361,6 +423,7 @@
   };
 
   // It must be a global variable because it will be called by JSONP.
+  window.__twttrf = twitterFetcher;
   window.twitterFetcher = twitterFetcher;
   return twitterFetcher;
 }));
@@ -391,32 +454,32 @@
  * @param {boolean} Optional - Show links for reply, retweet, favourite. Set false to not show.
  */
 var config = {
-	"id" : '434514841240207360', 
-	"domId" : 'twitter_feed', 
-	"maxTweets" : 4, 
-	"enableLinks" : true, 
-	"showUser" : true, 
-	"showTime" : true, 
-	"dateFunction" : '', 
-	"showRetweet" : true, 
-	"customCallback" : handleTweets,
-	"showInteraction" : false
+  "id" : '434514841240207360', 
+  "domId" : 'twitter_feed', 
+  "maxTweets" : 4, 
+  "enableLinks" : true, 
+  "showUser" : true, 
+  "showTime" : true, 
+  "dateFunction" : '', 
+  "showRetweet" : true, 
+  "customCallback" : handleTweets,
+  "showInteraction" : false
 }
 twitterFetcher.fetch(config);
 
 function handleTweets(tweets) {
-	var x = tweets.length;
-	var n = 0;
-	var element = document.getElementById('twitter_feed');
-	var html = '';
-	while (n < x) {
-		if (tweets[n].indexOf("Katricia Barleta (screen name: katriciab)") != -1) {
-			html += '<div class="tweet mine">' + tweets[n] + '</div>';
-		} else {
-			html += '<div class="tweet retweet">' + tweets[n] + '</div>';
-		}
-		n++;
+  var x = tweets.length;
+  var n = 0;
+  var element = document.getElementById('twitter_feed');
+  var html = '';
+  while (n < x) {
+    if (tweets[n].indexOf("Katricia Barleta (screen name: katriciab)") != -1) {
+      html += '<div class="tweet mine">' + tweets[n] + '</div>';
+    } else {
+      html += '<div class="tweet retweet">' + tweets[n] + '</div>';
+    }
+    n++;
 
-	}
-	element.innerHTML = html;
+  }
+  element.innerHTML = html;
 }
