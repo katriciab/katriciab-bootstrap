@@ -24,7 +24,7 @@ const Play = () => (
   <WhitespaceWrap style={{ justifyContent: 'center'}}>
     <MiddleSection>
       <Paragraph>
-        <span>I like to play</span> - once in a while, I’ll <a href="https://github.com/katriciab/home" target="_blank">code</a> on side projects, <a href="https://soundcloud.com/katriciab/tracks" target="_blank">express</a> myself through song, <a href="http://katriciab.com/bakesmith/" target="_blank">design</a> websites and <a href="http://rise-studios.ca" target="_blank">make</a> ceramic things.
+        <span>I like to play</span> - once in a while, I’ll <a href="https://github.com/katriciab/home" rel="noopener noreferrer" target="_blank">code</a> on side projects, <a href="https://soundcloud.com/katriciab/tracks" rel="noopener noreferrer" target="_blank">express</a> myself through song, <a href="http://katriciab.com/bakesmith/" rel="noopener noreferrer" target="_blank">design</a> websites and <a href="http://rise-studios.ca" rel="noopener noreferrer" target="_blank">make</a> ceramic things.
       </Paragraph>
       <Paragraph>
         Here is one of my recent projects:
@@ -35,7 +35,7 @@ const Play = () => (
             <img src={RiseMobileProducts} alt="rise studios products" />
           </RiseImages>
           <Paragraph>
-            <span><a href="https://instagram.com/risestudios_ca">@risestudios_ca</a></span><br />
+            <span><a href="https://instagram.com/risestudios_ca" rel="noopener noreferrer" target="_blank">@risestudios_ca</a></span><br />
             Making things because it brings happiness.
           </Paragraph>
       </Wrap>
